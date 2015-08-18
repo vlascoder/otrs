@@ -229,7 +229,15 @@ sub Run {
     my $Counter         = 0;
     my $AllTickets      = 0;
     my $AllTicketsTotal = 0;
-    for my $Filter ( sort keys %{ $Filters{ $Self->{Subaction} } } ) {
+
+    my @SortedFiltersKeys = sort {
+        $Filters{ $Self->{Subaction} }->{ $a }->{'Prio'}
+        <=>
+        $Filters{ $Self->{Subaction} }->{ $b }->{'Prio'}
+    } keys %{ $Filters{ $Self->{Subaction} } };
+
+    for my $Filter (@SortedFiltersKeys)
+    {
         $Counter++;
 
         # quote all CustomerIDs
